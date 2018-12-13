@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AsyncService {
     @Async
     public ListenableFuture<Integer> execute(Integer i) {
-        if (i == 5) {
-            throw new IllegalArgumentException("5 is not acceptable");
+        if (i > 5) {
+            throw new IllegalArgumentException(String.format("%s is not acceptable", i));
         }
         return new AsyncResult<>(i * 2);
     }

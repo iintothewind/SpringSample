@@ -22,11 +22,7 @@ public class TaskExecutorConfig implements AsyncConfigurer {
 
     @Bean(name = "forkJoinPool")
     public ExecutorService loadForkJoinPool() {
-        return new ForkJoinPool(
-            Runtime.getRuntime().availableProcessors(),
-            ForkJoinPool.defaultForkJoinWorkerThreadFactory,
-            null,
-            false);
+        return new ForkJoinPool(Runtime.getRuntime().availableProcessors(), ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
     }
 
     @Bean(name = "listeningExecutorService")

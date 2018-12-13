@@ -1,6 +1,7 @@
 package spring.sample;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -49,7 +50,7 @@ public class ApplicationTests {
         });
     }
 
-    @Test
+    @Test(expected = CompletionException.class)
     public void testCompletionService() {
         CompletableFuture
             .allOf(
@@ -63,17 +64,19 @@ public class ApplicationTests {
                                     log.error(t.getMessage(), t);
                                 }
                             })
-                    ).toArray(CompletableFuture[]::new)
+                    )
+                    .toArray(CompletableFuture[]::new)
             )
-            .whenComplete(
-                (v, t) -> {
-                    if (t != null) {
-                        log.error("completed with error", t);
-                    } else {
-                        log.info("completed successfully");
-                    }
-                }
-            );
+            .join();
+        //            .whenComplete(
+        //                (v, t) -> {
+        //                    if (t != null) {
+        //                        log.error("completed with error", t);
+        //                    } else {
+        //                        log.info("completed successfully");
+        //                    }
+        //                }
+        //            );
         log.info("done");
     }
 
