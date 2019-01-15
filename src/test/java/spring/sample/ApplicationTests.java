@@ -80,4 +80,10 @@ public class ApplicationTests {
         log.info("done");
     }
 
+    @Test
+    public void testRetry() {
+        System.out.println(asyncService.echo("sssssssss"));
+        System.out.println(asyncService.echo(""));
+    }
+
 }
