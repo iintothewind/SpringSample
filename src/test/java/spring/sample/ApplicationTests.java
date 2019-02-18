@@ -1,10 +1,7 @@
 package spring.sample;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import lombok.extern.slf4j.Slf4j;
 import spring.sample.service.AsyncService;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 
 @Slf4j
@@ -84,6 +85,11 @@ public class ApplicationTests {
     public void testRetry() {
         System.out.println(asyncService.echo("sssssssss"));
         System.out.println(asyncService.echo(""));
+    }
+
+    @Test
+    public void testSpecReq() {
+        asyncService.specReq();
     }
 
 }
