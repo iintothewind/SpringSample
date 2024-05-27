@@ -29,7 +29,7 @@ spring:
     open-in-view: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/echobase
+    url: jdbc:mysql://localhost:3306/echobase?allowPublicKeyRetrieval=true&useSSL=false
     username: czhang
     password: chzh123$
 
