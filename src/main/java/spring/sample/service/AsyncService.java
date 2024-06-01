@@ -29,9 +29,9 @@ public class AsyncService {
     @Retryable(retryFor = {IllegalArgumentException.class})
     public CompletableFuture<Integer> execute(Integer i) {
         log.info("execute {} start", i);
-        if (i > 5) {
-            throw new IllegalArgumentException(String.format("%s is not acceptable", i));
-        }
+//        if (i > 5) {
+//            throw new IllegalArgumentException(String.format("%s is not acceptable", i));
+//        }
         return CompletableFuture.supplyAsync(() -> i * 2, pool);
     }
 

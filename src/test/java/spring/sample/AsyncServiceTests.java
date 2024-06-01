@@ -1,5 +1,6 @@
 package spring.sample;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.IntStream;
@@ -48,10 +49,10 @@ public class AsyncServiceTests {
                         asyncService
                             .execute(i)
                             .whenComplete((n, t) -> {
-                                if (n != null) {
-                                    log.info("input: {} , result: {}", i, n);
-                                } else {
+                                if (Objects.nonNull(t)) {
                                     log.error(t.getMessage(), t);
+                                } else {
+                                    log.info("input: {} , result: {}", i, n);
                                 }
                             })
                     )
@@ -62,13 +63,18 @@ public class AsyncServiceTests {
                     if (t != null) {
                         log.error("completed with error", t);
                     } else {
-                        log.info("completed successfully");
+                        System.out.println("completed");
+                        log.info("####### completed successfully");
                     }
                 }
             );
         log.info("done");
 
     }
+
+    /**
+     * this test case will not work as expected, because ayncService is a mocked instance.
+     */
 
     @Test
     @Disabled
