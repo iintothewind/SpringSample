@@ -18,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 public class AsyncService {
 
-    private final ExecutorService pool;
+    private final ExecutorService executorService;
 
     public static HttpServletRequest loadReq() {
         final ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -32,7 +32,7 @@ public class AsyncService {
 //        if (i > 5) {
 //            throw new IllegalArgumentException(String.format("%s is not acceptable", i));
 //        }
-        return CompletableFuture.supplyAsync(() -> i * 2, pool);
+        return CompletableFuture.supplyAsync(() -> i * 2, executorService);
     }
 
     @Retryable(retryFor = {RuntimeException.class})

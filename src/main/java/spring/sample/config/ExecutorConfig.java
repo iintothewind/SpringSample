@@ -2,7 +2,7 @@ package spring.sample.config;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -10,33 +10,42 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 @Slf4j
 @EnableAsync
 @EnableRetry
 @Configuration
-public class TaskExecutorConfig implements AsyncConfigurer {
+public class ExecutorConfig implements AsyncConfigurer, SchedulingConfigurer {
 
-    private final ExecutorService forkJoinPool;
+    private final ExecutorService executorService;
 
-    public TaskExecutorConfig() {
-        forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
+    public ExecutorConfig() {
+        executorService = Executors.newVirtualThreadPerTaskExecutor();
     }
 
     @Bean(name = "executorService")
-    public ExecutorService loadForkJoinPool() {
-        return forkJoinPool;
+    public ExecutorService getExecutorService() {
+        return executorService;
     }
 
     @Override
     public Executor getAsyncExecutor() {
-        return forkJoinPool;
+        return executorService;
+    }
+
+    @Override
+    public void configureTasks(final ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.setScheduler(executorService);
     }
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return (throwable, method, params) -> {
-            log.error("failed to execute async task:", throwable);
+            log.error("failed to execute async task, method: {}", method.getName(), throwable);
         };
     }
+
+
 }
