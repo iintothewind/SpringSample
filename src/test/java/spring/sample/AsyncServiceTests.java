@@ -3,6 +3,7 @@ package spring.sample;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -12,13 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import spring.sample.config.TaskExecutorConfig;
+import spring.sample.config.ExecutorConfig;
 import spring.sample.service.AsyncService;
 
 
 @Slf4j
 @SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@ContextConfiguration(classes = {TaskExecutorConfig.class})
+@ContextConfiguration(classes = {ExecutorConfig.class})
 public class AsyncServiceTests {
 
     private AsyncService asyncService;
@@ -33,11 +34,11 @@ public class AsyncServiceTests {
 
     @AfterEach
     public void tearDown() throws InterruptedException {
-        //        TimeUnit.SECONDS.sleep(3);
+//        TimeUnit.SECONDS.sleep(3);
     }
 
     /**
-     * this test case will not work as expected, because ayncService is a mocked instance.
+     * this test case will not work as expected, because asyncService is a mocked instance.
      */
     @Test
     @Disabled
@@ -63,8 +64,7 @@ public class AsyncServiceTests {
                     if (t != null) {
                         log.error("completed with error", t);
                     } else {
-                        System.out.println("completed");
-                        log.info("####### completed successfully");
+                        log.info("result: {}", v);
                     }
                 }
             );
