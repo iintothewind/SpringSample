@@ -1,5 +1,6 @@
 package spring.sample.controller;
 
+import io.vavr.concurrent.Future;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
@@ -29,32 +30,29 @@ public class HelloController {
 
     @RequestMapping("/executeAsync")
     public String executeAsync() {
-        CompletableFuture
-            .allOf(
-                IntStream.range(1, 10)
-                    .mapToObj(i ->
+        final Future<Integer> reduced = Future.reduce(
+            IntStream.range(1, 9)
+                .mapToObj(i ->
+                    Future.fromCompletableFuture(
                         asyncService
                             .execute(i)
-                            .whenComplete((n, t) -> {
+                            .handle((n, t) -> {
                                 if (Objects.nonNull(t)) {
-                                    log.error(t.getMessage(), t);
+                                    log.error("failed to execute async service: {}", t.getMessage());
+                                    return 0;
                                 } else {
                                     log.info("input: {} , result: {}", i, n);
+                                    return n;
                                 }
                             })
                     )
-                    .toArray(CompletableFuture[]::new)
-            )
-            .whenComplete(
-                (v, t) -> {
-                    if (t != null) {
-                        log.error("completed with error", t);
-                    } else {
-                        log.info("result: {}", v);
-                    }
-                }
-            );
-        return "committed";
+                )
+                .toList(),
+            (l, r) -> l + r
+        );
+
+        final String result = String.valueOf(reduced.getOrElse(-1));
+        return result;
     }
 
 }

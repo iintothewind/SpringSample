@@ -1,7 +1,9 @@
 package spring.sample;
 
+import io.vavr.concurrent.Future;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -27,5 +29,4 @@ public class AnyTest {
                 }
             );
     }
-
 }
