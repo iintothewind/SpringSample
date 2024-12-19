@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,14 @@ import spring.sample.service.DbService;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class HelloController {
 
     private static final String template = "Hello, %s!";
 
-    @Autowired
-    private AsyncService asyncService;
+    private final AsyncService asyncService;
 
-    @Autowired
-    private DbService dbService;
+    private final DbService dbService;
 
     @RequestMapping("/greeting")
     public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
