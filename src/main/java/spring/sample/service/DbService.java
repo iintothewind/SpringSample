@@ -23,7 +23,7 @@ public class DbService {
         if (Objects.nonNull(status) && Objects.nonNull(limit)) {
             final int rowLimit = limit > 0 ? limit : 1;
             final String sql = """
-                select * from or_route_plan_jobs r 
+                select * from jobs r 
                 where 1 = 1
                 and r.status = :status 
                 and r.attempts < :attempts 

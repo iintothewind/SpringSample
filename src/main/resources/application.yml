@@ -19,11 +19,18 @@ spring:
     virtual:
       enabled: true
   datasource:
-    url: jdbc:mysql://localhost:13306/ulala_main?allowPublicKeyRetrieval=true&useSSL=false
-    username: ulala
-    password: ula123$
+    #url: jdbc:mysql://localhost:13306/ulala_main?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    username: admin
+    password: admin
+    driver-class-name: org.h2.Driver
+
   jpa:
     open-in-view: false
+  sql:
+    init:
+      schema-locations: classpath:ddl.sql
+      data-locations: classpath:dml.sql
 
 logging:
   level:

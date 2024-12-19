@@ -1,0 +1,18 @@
+DROP TABLE "jobs" IF EXISTS;
+
+CREATE TABLE "jobs" (
+"id" INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+"job_type" VARCHAR(99) NOT NULL,
+"plan_id" BIGINT DEFAULT NULL,
+"job_id" VARCHAR(99) DEFAULT NULL,
+"route_id" VARCHAR(254) DEFAULT NULL,
+"request" CLOB,
+"response" CLOB,
+"status" VARCHAR(99) NOT NULL,
+"attempts" INT NOT NULL DEFAULT -1,
+"action_user" BIGINT NOT NULL,
+"attempt_time" TIMESTAMP DEFAULT NULL,
+"request_time" TIMESTAMP DEFAULT NULL,
+"respond_time" TIMESTAMP DEFAULT NULL,
+"create_time" TIMESTAMP NOT NULL
+);
