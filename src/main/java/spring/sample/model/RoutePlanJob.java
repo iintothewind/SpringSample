@@ -36,7 +36,7 @@ public class RoutePlanJob {
 
     public final static String baseUrl = "https://graphhopper.com/api/1";
 
-    public final static String key = "0fb3c0af-ff6b-442f-86af-2d48887d1533";
+    public final static String key = "zzz-zzz-zzz-zzz-zz-zz";
 
     @EqualsAndHashCode.Include
     private Integer id;
