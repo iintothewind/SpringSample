@@ -1,17 +1,21 @@
 package spring.sample.controller;
 
 import io.vavr.concurrent.Future;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import spring.sample.model.RoutePlanJob;
 import spring.sample.service.AsyncService;
 
 import java.util.concurrent.atomic.AtomicLong;
+import spring.sample.service.DbService;
 
 
 @Slf4j
@@ -22,6 +26,9 @@ public class HelloController {
 
     @Autowired
     private AsyncService asyncService;
+
+    @Autowired
+    private DbService dbService;
 
     @RequestMapping("/greeting")
     public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -53,6 +60,13 @@ public class HelloController {
 
         final String result = String.valueOf(reduced.getOrElse(-1));
         return result;
+    }
+
+
+    @RequestMapping("/jobs")
+    public ResponseEntity<List<RoutePlanJob>> listJobs() {
+        final List<RoutePlanJob> jobs = dbService.peekJobs("optimized", 99);
+        return ResponseEntity.ok(jobs);
     }
 
 }

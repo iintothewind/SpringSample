@@ -2,8 +2,6 @@ package spring.sample;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import spring.sample.config.ExecutorConfig;
 import spring.sample.service.AsyncService;
@@ -24,12 +21,8 @@ public class AsyncServiceTests {
 
     private AsyncService asyncService;
 
-    @MockBean
-    private ExecutorService pool;
-
     @BeforeEach
     public void beforeEach() {
-        asyncService = new AsyncService(pool);
     }
 
     @AfterEach
