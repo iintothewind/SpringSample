@@ -35,7 +35,7 @@ public class AsyncService {
             if (i > 5) {
                 throw new IllegalArgumentException(String.format("%s is not acceptable", i));
             }
-            Try.run(() -> TimeUnit.SECONDS.sleep(1L));
+//            Try.run(() -> TimeUnit.SECONDS.sleep(1L));
             return i * 2;
         });
     }
