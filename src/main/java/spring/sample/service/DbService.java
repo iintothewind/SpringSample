@@ -22,7 +22,14 @@ public class DbService {
         log.info("RoutePlanJobRepo.dequeueJobs, statuses: {}, limit: {}", status, limit);
         if (Objects.nonNull(status) && Objects.nonNull(limit)) {
             final int rowLimit = limit > 0 ? limit : 1;
-            final String sql = "select * from or_route_plan_jobs r where r.status = :status and r.attempts < :attempts order by r.attempts desc, r.id asc limit :limit";
+            final String sql = """
+                select * from or_route_plan_jobs r 
+                where 1 = 1
+                and r.status = :status 
+                and r.attempts < :attempts 
+                order by r.attempts desc, r.id asc 
+                limit :limit
+                """;
             final List<RoutePlanJob> jobs = handle.createQuery(sql)
                 .bind("status", status)
                 .bind("attempts", RoutePlanJob.attemptLimit)
